@@ -7,6 +7,7 @@ import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,6 @@ import com.infinum.cities.domain.City;
 import com.infinum.cities.repository.CityRepository;
 import com.infinum.cities.representation.CityResource;
 import com.infinum.cities.representation.CityResourceAssembler;
-import com.infinum.cities.representation.PublicResource;
 
 @RestController
 @RequestMapping("/public/cities")
@@ -41,15 +41,12 @@ public class CityController {
 
 	}
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<CityResource> getSingle(Long id) {
+	public ResponseEntity<CityResource> getSingle(@PathVariable Long id) {
 		City city = cityRepository.findById(id).orElse(new City());
 		CityResource cr = cityResourceAssembler.toResource(city);
 		return ResponseEntity.ok(cr);
 
 	}
-	@GetMapping("/")
-	public ResponseEntity<PublicResource> getRoot(){
-		return ResponseEntity.ok(new PublicResource());
-	}
+
 
 }

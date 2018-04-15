@@ -18,7 +18,6 @@ import com.infinum.cities.domain.City;
 import com.infinum.cities.repository.CityRepository;
 import com.infinum.cities.representation.CityResource;
 import com.infinum.cities.representation.CityResourceAssembler;
-import com.infinum.cities.representation.SecuredResource;
 
 @RestController
 @RequestMapping("/secured/cities")
@@ -53,8 +52,4 @@ public class FavoriteCitiesByUserController {
 		cityRepository.deleteFavorite(id);
 	}
 	
-	@GetMapping("/")
-	public ResponseEntity<SecuredResource> getRoot(){
-		return ResponseEntity.ok(new SecuredResource());
-	}
 }

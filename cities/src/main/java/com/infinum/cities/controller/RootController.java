@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.infinum.cities.dto.SecUserDTO;
+import com.infinum.cities.representation.PublicResource;
 import com.infinum.cities.representation.RootResource;
 import com.infinum.cities.security.HeaderToken;
 import com.infinum.cities.service.UserService;
@@ -28,12 +29,22 @@ public class RootController {
 		user = userService.getTokenAndUser(user);
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set(HeaderToken.X_AUTH_TOKEN.getValue(), user.getToken());
-		ResponseEntity<SecUserDTO> response = new ResponseEntity<SecUserDTO>(user,responseHeaders,HttpStatus.OK);
+		responseHeaders.set(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_UTF8_VALUE);
+		ResponseEntity<SecUserDTO> response = new ResponseEntity<SecUserDTO>(user, responseHeaders, HttpStatus.OK);
 
 		return response;
 	}
+
 	@GetMapping("/")
-	public ResponseEntity<RootResource> getRoot(){
+	public ResponseEntity<RootResource> getRoot() {
 		return ResponseEntity.ok(new RootResource());
 	}
+
+
+
+	@GetMapping("/public")
+	public ResponseEntity<PublicResource> getPublicRoot() {
+		return ResponseEntity.ok(new PublicResource());
+	}
+
 }

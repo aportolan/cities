@@ -60,6 +60,16 @@ public class ControllerIntegrationTests {
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
 	}
+	
+	@Test
+	public void getCity() throws Exception {
+
+		mockMvc.perform(
+				get("/public/cities/{id}", user.getListOfFavoritedCities().get(0).getIdCity())
+						.accept(MediaType.parseMediaType(MediaType.APPLICATION_JSON_UTF8_VALUE)))
+				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+
+	}
 
 	@Test
 	public void getCitiesOrderedByDate() throws Exception {
@@ -82,7 +92,11 @@ public class ControllerIntegrationTests {
 	@Test
 	public void token() throws Exception {
 
-		mockMvc.perform(post("/token", 1).content(getUserCredentials()).accept(MediaType.parseMediaType(MediaType.APPLICATION_JSON_UTF8_VALUE))).andExpect(status().isOk()).andExpect(header().exists(HeaderToken.X_AUTH_TOKEN.getValue()));
+		mockMvc.perform(post("/token").contentType(MediaType.APPLICATION_JSON_UTF8)
+				.content(getUserCredentials())
+				.accept(MediaType.parseMediaType(MediaType.APPLICATION_JSON_UTF8_VALUE)))
+		.andExpect(header()
+				.exists(HeaderToken.X_AUTH_TOKEN.getValue()));
 
 	}
 
