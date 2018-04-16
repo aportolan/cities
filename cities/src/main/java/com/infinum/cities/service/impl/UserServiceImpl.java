@@ -23,11 +23,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public SecUserDTO getUserByToken(String token) {
 
-		User user = userRepository.findOne(QUser.user.token.eq(token)).orElse(null);
-		if (user != null) {
-			user.setToken(RandomStringUtils.randomAlphabetic(50));
-			userRepository.save(user);
-		}
+		User user = userRepository.findOne(QUser.user.token.eq(token)).orElse(new User());
+		//if (user != null) {
+		//	user.setToken(RandomStringUtils.randomAlphabetic(50));
+		//	userRepository.save(user);
+		//}
 
 		return new SecUserDTO(user);
 	}
